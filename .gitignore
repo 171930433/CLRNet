@@ -23,3 +23,5 @@ tmp.*
 *.so
 build
 *.jpg
+culane_r18.pth.zip
+vis/
