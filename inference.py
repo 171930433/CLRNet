@@ -31,6 +31,7 @@ class Detect(object):
         # 如果图片读取失败，提前返回None
         if ori_img is None:
             return None
+        ori_img = cv2.resize(ori_img, (self.cfg.ori_img_w, self.cfg.ori_img_h))
         img = ori_img[self.cfg.cut_height:, :, :].astype(np.float32)
         data = {'img': img, 'lanes': []}
         data = self.processes(data)
@@ -118,12 +119,13 @@ def process(args):
         # --- 可视化 ---
         lanes = [lane.to_array(cfg) for lane in data['lanes']]
         vis_img = data['ori_img'].copy()
-        imshow_lanes(vis_img, lanes, show=False)
+        imshow_lanes(vis_img, lanes, show=False, width=1)
 
         # --- 3. 在图片上绘制推理时间 ---
         time_text = f"Inference: {inference_time:.2f} ms"
         cv2.putText(vis_img, time_text, (15, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
 
+        vis_img = cv2.resize(vis_img, (1920, 1080))
         cv2.imshow(window_name, vis_img)
 
         key = cv2.waitKey(0) & 0xFF

@@ -44,6 +44,7 @@ def imshow_lanes(img, lanes, show=False, out_file=None, width=4):
         for x, y in lane:
             if x <= 0 or y <= 0:
                 continue
+            # x, y = int(x*1920.0/1640), int((y/590.0*810))
             x, y = int(x), int(y)
             xys.append((x, y))
         lanes_xys.append(xys)
